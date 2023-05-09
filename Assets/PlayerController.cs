@@ -9,10 +9,13 @@ public class PlayerController : MonoBehaviour
     float camRotation = 0f;
     float camRotationThisFrame, xMouse, yMouse;
     float cameraVerticalAngleLimit = 90f;
+    //TODO: mouse sensitivity, custom keys
 
     Rigidbody rigidBody;
     [SerializeField] float walkSpeed = 500f;
-    [SerializeField] float sideWalkSpeed = 350f;
+
+    bool isGrounded;
+    [SerializeField] float groundDrag = 10f;
 
     // Start is called before the first frame update
     void Start()
@@ -30,22 +33,22 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         GetMouseInput();
-        if (Input.GetKey(KeyCode.W))
+        RespondToMovementKeys();
+        if(Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1.1f) && hit.transform.gameObject.CompareTag("Ground"))
         {
-            rigidBody.AddRelativeForce(Vector3.forward * walkSpeed * Time.deltaTime);
+            isGrounded = true;
         }
-        else if (Input.GetKey(KeyCode.S))
+        else
         {
-            rigidBody.AddRelativeForce(Vector3.back * walkSpeed * Time.deltaTime);
+            isGrounded = false;
         }
-
-        if (Input.GetKey(KeyCode.A))
+        if (isGrounded)
         {
-            rigidBody.AddRelativeForce(Vector3.left * sideWalkSpeed * Time.deltaTime);
+            rigidBody.drag = groundDrag;
         }
-        else if (Input.GetKey(KeyCode.D))
+        else
         {
-            rigidBody.AddRelativeForce(Vector3.right * sideWalkSpeed * Time.deltaTime);
+            rigidBody.drag = 0f;
         }
     }
 
@@ -70,6 +73,27 @@ public class PlayerController : MonoBehaviour
         else if (camRotation + camRotationThisFrame < -cameraVerticalAngleLimit)
         {
             camRotationThisFrame = -cameraVerticalAngleLimit - camRotation;
+        }
+    }
+
+    private void RespondToMovementKeys()
+    {
+        if (Input.GetKey(KeyCode.W))
+        {
+            rigidBody.AddRelativeForce(Vector3.forward * walkSpeed * Time.deltaTime);
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            rigidBody.AddRelativeForce(Vector3.back * walkSpeed * Time.deltaTime);
+        }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            rigidBody.AddRelativeForce(Vector3.left * walkSpeed * Time.deltaTime);
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            rigidBody.AddRelativeForce(Vector3.right * walkSpeed * Time.deltaTime);
         }
     }
 }
