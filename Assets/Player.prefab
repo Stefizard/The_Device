@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 500
-  sideWalkSpeed: 350
+  groundDrag: 2
 --- !u!1 &1298564698081335135
 GameObject:
   m_ObjectHideFlags: 0

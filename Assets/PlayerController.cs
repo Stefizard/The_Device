@@ -17,6 +17,10 @@ public class PlayerController : MonoBehaviour
     bool isGrounded;
     [SerializeField] float groundDrag = 10f;
 
+    [SerializeField] float jumpForce = 10f;
+    [SerializeField] float jumpCooldown = 0.1f;
+    bool readyToJump = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,22 +38,18 @@ public class PlayerController : MonoBehaviour
     {
         GetMouseInput();
         RespondToMovementKeys();
-        if(Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1.1f) && hit.transform.gameObject.CompareTag("Ground"))
+        VerifyIfGrounded();
+        ApplyDrag();
+        if (isGrounded && readyToJump && Input.GetKey(KeyCode.Space))
         {
-            isGrounded = true;
+            readyToJump = false;
+            rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            Invoke("ResetJump", jumpCooldown);
         }
-        else
-        {
-            isGrounded = false;
-        }
-        if (isGrounded)
-        {
-            rigidBody.drag = groundDrag;
-        }
-        else
-        {
-            rigidBody.drag = 0f;
-        }
+    }
+    private void ResetJump()
+    {
+        readyToJump = true;
     }
 
     private void GetMouseInput()
@@ -94,6 +94,30 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetKey(KeyCode.D))
         {
             rigidBody.AddRelativeForce(Vector3.right * walkSpeed * Time.deltaTime);
+        }
+    }
+
+    private void VerifyIfGrounded()
+    {
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1.1f) && hit.transform.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+        else
+        {
+            isGrounded = false;
+        }
+    }
+
+    private void ApplyDrag()
+    {
+        if (isGrounded)
+        {
+            rigidBody.drag = groundDrag;
+        }
+        else
+        {
+            rigidBody.drag = 0f;
         }
     }
 }
