@@ -12,12 +12,12 @@ public class PlayerController : MonoBehaviour
     //TODO: mouse sensitivity, custom keys
 
     Rigidbody rigidBody;
-    [SerializeField] float walkSpeed = 500f;
+    [SerializeField] float walkSpeed = 6f;
 
     bool isGrounded;
-    [SerializeField] float groundDrag = 10f;
+    [SerializeField] float groundDrag = 2.5f;
 
-    [SerializeField] float jumpForce = 10f;
+    [SerializeField] float jumpForce = 5f;
     [SerializeField] float jumpCooldown = 0.1f;
     bool readyToJump = true;
 
@@ -38,18 +38,10 @@ public class PlayerController : MonoBehaviour
     {
         GetMouseInput();
         RespondToMovementKeys();
+        LimitSpeed();
         VerifyIfGrounded();
         ApplyDrag();
-        if (isGrounded && readyToJump && Input.GetKey(KeyCode.Space))
-        {
-            readyToJump = false;
-            rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            Invoke("ResetJump", jumpCooldown);
-        }
-    }
-    private void ResetJump()
-    {
-        readyToJump = true;
+        Jump();
     }
 
     private void GetMouseInput()
@@ -80,20 +72,28 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.W))
         {
-            rigidBody.AddRelativeForce(Vector3.forward * walkSpeed * Time.deltaTime);
+            rigidBody.AddRelativeForce(Vector3.forward * walkSpeed * 200 * Time.deltaTime);
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            rigidBody.AddRelativeForce(Vector3.back * walkSpeed * Time.deltaTime);
+            rigidBody.AddRelativeForce(Vector3.back * walkSpeed * 200 * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.A))
         {
-            rigidBody.AddRelativeForce(Vector3.left * walkSpeed * Time.deltaTime);
+            rigidBody.AddRelativeForce(Vector3.left * walkSpeed * 200 * Time.deltaTime);
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            rigidBody.AddRelativeForce(Vector3.right * walkSpeed * Time.deltaTime);
+            rigidBody.AddRelativeForce(Vector3.right * walkSpeed * 200 * Time.deltaTime);
+        }
+    }
+
+    private void LimitSpeed()
+    {
+        if (rigidBody.velocity.magnitude > walkSpeed)
+        {
+            rigidBody.velocity = rigidBody.velocity.normalized * walkSpeed;
         }
     }
 
@@ -119,5 +119,20 @@ public class PlayerController : MonoBehaviour
         {
             rigidBody.drag = 0f;
         }
+    }
+
+    private void Jump()
+    {
+        if (isGrounded && readyToJump && Input.GetKey(KeyCode.Space))
+        {
+            readyToJump = false;
+            rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            Invoke("ResetJump", jumpCooldown);
+        }
+    }
+
+    private void ResetJump()
+    {
+        readyToJump = true;
     }
 }
