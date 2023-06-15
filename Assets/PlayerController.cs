@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,6 +13,9 @@ public class PlayerController : MonoBehaviour
     float camRotationThisFrame, xMouse, yMouse;
     float cameraVerticalAngleLimit = 90f;
     //TODO: mouse sensitivity, custom keys
+
+    float horizontalInput;
+    float verticalInput;
 
     Rigidbody rigidBody;
     [SerializeField] float walkSpeed = 6f;
@@ -20,6 +26,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float jumpForce = 5f;
     [SerializeField] float jumpCooldown = 0.1f;
     bool readyToJump = true;
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+        if (GameObject.FindGameObjectsWithTag("Player").Length > 1 )
+        {
+            Destroy(gameObject);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -37,11 +52,27 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         GetMouseInput();
-        RespondToMovementKeys();
+        GetMovementKeys();
         LimitSpeed();
         VerifyIfGrounded();
         ApplyDrag();
         Jump();
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            if (SceneManager.GetActiveScene().buildIndex == 0)
+            {
+                SceneManager.LoadSceneAsync(1);
+            }
+            else if (SceneManager.GetActiveScene().buildIndex == 1)
+            {
+                SceneManager.LoadSceneAsync(0);
+            }
+        }
+    }
+
+    void FixedUpdate()
+    {
+        MovePlayer();
     }
 
     private void GetMouseInput()
@@ -68,32 +99,30 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void RespondToMovementKeys()
+    private void GetMovementKeys()
     {
-        if (Input.GetKey(KeyCode.W))
+        horizontalInput = Input.GetAxis("Horizontal");
+        verticalInput = Input.GetAxis("Vertical");
+    }
+    private void MovePlayer()
+    {
+        if (horizontalInput != 0)
         {
-            rigidBody.AddRelativeForce(Vector3.forward * walkSpeed * 200 * Time.deltaTime);
+            rigidBody.AddRelativeForce(Vector3.right * 3.8f * walkSpeed * horizontalInput);
         }
-        else if (Input.GetKey(KeyCode.S))
+        if (verticalInput != 0)
         {
-            rigidBody.AddRelativeForce(Vector3.back * walkSpeed * 200 * Time.deltaTime);
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            rigidBody.AddRelativeForce(Vector3.left * walkSpeed * 200 * Time.deltaTime);
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            rigidBody.AddRelativeForce(Vector3.right * walkSpeed * 200 * Time.deltaTime);
+            rigidBody.AddRelativeForce(Vector3.forward * 3.8f * walkSpeed * verticalInput);
         }
     }
 
     private void LimitSpeed()
     {
-        if (rigidBody.velocity.magnitude > walkSpeed)
+        Vector3 horizontalVelocity = new Vector3 (rigidBody.velocity.x, 0f, rigidBody.velocity.z);
+        if (horizontalVelocity.magnitude > walkSpeed)
         {
-            rigidBody.velocity = rigidBody.velocity.normalized * walkSpeed;
+            Vector3 limitedVelocity = horizontalVelocity.normalized * walkSpeed;
+            rigidBody.velocity = new Vector3(limitedVelocity.x, rigidBody.velocity.y, limitedVelocity.z);
         }
     }
 
@@ -126,7 +155,8 @@ public class PlayerController : MonoBehaviour
         if (isGrounded && readyToJump && Input.GetKey(KeyCode.Space))
         {
             readyToJump = false;
-            rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            rigidBody.velocity = new Vector3(rigidBody.velocity.x, 0f, rigidBody.velocity.z);
+            rigidBody.AddForce(transform.up * jumpForce, ForceMode.Impulse);
             Invoke("ResetJump", jumpCooldown);
         }
     }
