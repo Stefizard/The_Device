@@ -30,15 +30,6 @@ public class PlayerController : MonoBehaviour
 
     int sublevel = 1;
 
-    private void Awake()
-    {
-        DontDestroyOnLoad(gameObject);
-        if (GameObject.FindGameObjectsWithTag("Player").Length > 1 )
-        {
-            Destroy(gameObject);
-        }
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -109,6 +100,7 @@ public class PlayerController : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
     }
+
     private void MovePlayer()
     {
         if (isGrounded)
@@ -185,39 +177,4 @@ public class PlayerController : MonoBehaviour
         readyToJump = true;
     }
 
-    IEnumerator Teleport()
-    {
-        yield return null;
-        AsyncOperation asyncOperation;
-        if (SceneManager.GetActiveScene().buildIndex == 0)
-        {
-            asyncOperation = SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
-            asyncOperation.allowSceneActivation = true;
-            yield return asyncOperation;
-            SceneManager.UnloadSceneAsync(0);
-        }
-        else
-        {
-            asyncOperation = SceneManager.LoadSceneAsync(0, LoadSceneMode.Additive);
-            asyncOperation.allowSceneActivation = true;
-            yield return asyncOperation;
-            SceneManager.UnloadSceneAsync(1);
-        }
-    }
-
-    private void Teleport2()
-    {
-        if (SceneManager.GetActiveScene().buildIndex == 0)
-        {
-            SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
-            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));
-            SceneManager.UnloadSceneAsync(0);
-        }
-        else
-        {
-            SceneManager.LoadSceneAsync(0, LoadSceneMode.Additive);
-            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(0));
-            SceneManager.UnloadSceneAsync(1);
-        }
-    }
 }
