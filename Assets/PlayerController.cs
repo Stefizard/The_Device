@@ -22,10 +22,13 @@ public class PlayerController : MonoBehaviour
 
     bool isGrounded;
     [SerializeField] float groundDrag = 2.5f;
+    [SerializeField] float airMultiplier = 0.4f;
 
     [SerializeField] float jumpForce = 5f;
     [SerializeField] float jumpCooldown = 0.1f;
     bool readyToJump = true;
+
+    int sublevel = 1;
 
     private void Awake()
     {
@@ -59,13 +62,15 @@ public class PlayerController : MonoBehaviour
         Jump();
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            if (SceneManager.GetActiveScene().buildIndex == 0)
+            if(sublevel == 1)
             {
-                SceneManager.LoadSceneAsync(1);
+                transform.position = transform.position + transform.up * 300;
+                sublevel = 2;
             }
-            else if (SceneManager.GetActiveScene().buildIndex == 1)
+            else if (sublevel == 2)
             {
-                SceneManager.LoadSceneAsync(0);
+                transform.position = transform.position + transform.up * -300;
+                sublevel = 1;
             }
         }
     }
@@ -106,13 +111,27 @@ public class PlayerController : MonoBehaviour
     }
     private void MovePlayer()
     {
-        if (horizontalInput != 0)
+        if (isGrounded)
         {
-            rigidBody.AddRelativeForce(Vector3.right * 3.8f * walkSpeed * horizontalInput);
+            if (horizontalInput != 0)
+            {
+                rigidBody.AddRelativeForce(Vector3.right * 3.8f * walkSpeed * horizontalInput);
+            }
+            if (verticalInput != 0)
+            {
+                rigidBody.AddRelativeForce(Vector3.forward * 3.8f * walkSpeed * verticalInput);
+            }
         }
-        if (verticalInput != 0)
+        else
         {
-            rigidBody.AddRelativeForce(Vector3.forward * 3.8f * walkSpeed * verticalInput);
+            if (horizontalInput != 0)
+            {
+                rigidBody.AddRelativeForce(Vector3.right * 3.8f * walkSpeed * horizontalInput * airMultiplier);
+            }
+            if (verticalInput != 0)
+            {
+                rigidBody.AddRelativeForce(Vector3.forward * 3.8f * walkSpeed * verticalInput * airMultiplier);
+            }
         }
     }
 
@@ -146,13 +165,13 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            rigidBody.drag = 0f;
+            rigidBody.drag = 0;
         }
     }
 
     private void Jump()
     {
-        if (isGrounded && readyToJump && Input.GetKey(KeyCode.Space))
+        if (isGrounded && readyToJump && Input.GetKeyDown(KeyCode.Space))
         {
             readyToJump = false;
             rigidBody.velocity = new Vector3(rigidBody.velocity.x, 0f, rigidBody.velocity.z);
@@ -164,5 +183,41 @@ public class PlayerController : MonoBehaviour
     private void ResetJump()
     {
         readyToJump = true;
+    }
+
+    IEnumerator Teleport()
+    {
+        yield return null;
+        AsyncOperation asyncOperation;
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            asyncOperation = SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
+            asyncOperation.allowSceneActivation = true;
+            yield return asyncOperation;
+            SceneManager.UnloadSceneAsync(0);
+        }
+        else
+        {
+            asyncOperation = SceneManager.LoadSceneAsync(0, LoadSceneMode.Additive);
+            asyncOperation.allowSceneActivation = true;
+            yield return asyncOperation;
+            SceneManager.UnloadSceneAsync(1);
+        }
+    }
+
+    private void Teleport2()
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
+            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));
+            SceneManager.UnloadSceneAsync(0);
+        }
+        else
+        {
+            SceneManager.LoadSceneAsync(0, LoadSceneMode.Additive);
+            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(0));
+            SceneManager.UnloadSceneAsync(1);
+        }
     }
 }
