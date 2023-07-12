@@ -21,12 +21,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float walkSpeed = 6f;
 
     bool isGrounded;
+    [SerializeField] float playerHeight = 2f;
     [SerializeField] float groundDrag = 2.5f;
     [SerializeField] float airMultiplier = 0.4f;
 
     [SerializeField] float jumpForce = 5f;
-    [SerializeField] float jumpCooldown = 0.1f;
-    bool readyToJump = true;
+    bool jumping = false;
+    float jumpTime;
+    [SerializeField] float maxJumpTime = 0.25f;
+
 
     int sublevel = 1;
 
@@ -139,7 +142,7 @@ public class PlayerController : MonoBehaviour
 
     private void VerifyIfGrounded()
     {
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1.1f) && hit.transform.gameObject.CompareTag("Ground"))
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, playerHeight / 2f + 0.1f) && hit.transform.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
         }
@@ -163,18 +166,20 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if (isGrounded && readyToJump && Input.GetKeyDown(KeyCode.Space))
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
-            readyToJump = false;
-            rigidBody.velocity = new Vector3(rigidBody.velocity.x, 0f, rigidBody.velocity.z);
-            rigidBody.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-            Invoke("ResetJump", jumpCooldown);
+            jumping = true;
+            jumpTime = 0;
+
+        }
+        if (jumping)
+        {
+            rigidBody.velocity = new Vector3(rigidBody.velocity.x, jumpForce, rigidBody.velocity.z);
+            jumpTime += Time.deltaTime;
+        }
+        if (jumpTime > maxJumpTime | Input.GetKeyUp(KeyCode.Space))
+        {
+            jumping = false;
         }
     }
-
-    private void ResetJump()
-    {
-        readyToJump = true;
-    }
-
 }
