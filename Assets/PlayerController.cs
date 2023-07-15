@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     float jumpTime;
     [SerializeField] float maxJumpTime = 0.25f;
 
-
+    bool canTeleport = true;
     int sublevel = 1;
 
     // Start is called before the first frame update
@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
         VerifyIfGrounded();
         ApplyDrag();
         Jump();
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (canTeleport && Input.GetKeyDown(KeyCode.Mouse0))
         {
             if(sublevel == 1)
             {
@@ -181,5 +181,18 @@ public class PlayerController : MonoBehaviour
         {
             jumping = false;
         }
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject.name == "End Trigger")
+        {
+            canTeleport = false;
+            Invoke("LoadNextLevel", 1.5f);
+        }
+    }
+    private void LoadNextLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
