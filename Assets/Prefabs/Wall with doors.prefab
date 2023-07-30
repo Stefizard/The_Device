@@ -46,10 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 484f1b7be2623c44caca7e3f4f5e3160, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftDoor: {fileID: 4531868689651042336}
-  rightDoor: {fileID: 5449564384093962954}
-  duration: 2
-  doorWidth: 1.5
+  leftDoor: {fileID: 1452065854169381465}
+  rightDoor: {fileID: 1452065853373078207}
 --- !u!1 &1452065853059000671
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,7 +183,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1452065853575494689}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 22, y: 1.5, z: 15.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -196,6 +194,68 @@ Transform:
   - {fileID: 1452065853059000608}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8636377539221389683
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4024794331838724101}
+  m_Layer: 0
+  m_Name: Left Door Open
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4024794331838724101
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8636377539221389683}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.5, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6242029344645894815}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8693528978015745909
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8287527165220436217}
+  m_Layer: 0
+  m_Name: Right Door Open
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8287527165220436217
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8693528978015745909}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.5, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2586464760018622581}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1452065853128637789
 PrefabInstance:
@@ -342,6 +402,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 855d09cdddb133b4da75d292bfc38142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destination: {fileID: 8693528978015745909}
+  duration: 2
 --- !u!1001 &1452065853805164575
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -482,6 +544,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 855d09cdddb133b4da75d292bfc38142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destination: {fileID: 8636377539221389683}
+  duration: 2
 --- !u!4 &6242029344645894815 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4017828577898760924, guid: 18d23033b941a224daff8fbfca9b662e, type: 3}

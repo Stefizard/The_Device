@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class TranslateAnimation : MonoBehaviour
 {
-    public void Play(Vector3 destination, float duration)
+    [SerializeField] GameObject destination;
+    [SerializeField] float duration = 2f;
+
+    public void Play()
     {
-        StartCoroutine(TranslateCoroutine(destination, duration));
+        StartCoroutine(TranslateCoroutine());
     }
-    IEnumerator TranslateCoroutine(Vector3 dest, float duration)
+    IEnumerator TranslateCoroutine()
     {
         Vector3 start = transform.position;
+        Vector3 dest = destination.transform.position;
         Vector3 direction = dest - start;
         for (float t = 0; t <= duration; t += Time.deltaTime)
         {
