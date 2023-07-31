@@ -110,22 +110,22 @@ public class PlayerController : MonoBehaviour
         {
             if (horizontalInput != 0)
             {
-                rigidBody.AddRelativeForce(Vector3.right * 3.8f * walkSpeed * horizontalInput);
+                rigidBody.AddRelativeForce(Vector3.right * 10f * walkSpeed * horizontalInput);
             }
             if (verticalInput != 0)
             {
-                rigidBody.AddRelativeForce(Vector3.forward * 3.8f * walkSpeed * verticalInput);
+                rigidBody.AddRelativeForce(Vector3.forward * 10f * walkSpeed * verticalInput);
             }
         }
         else
         {
             if (horizontalInput != 0)
             {
-                rigidBody.AddRelativeForce(Vector3.right * 3.8f * walkSpeed * horizontalInput * airMultiplier);
+                rigidBody.AddRelativeForce(Vector3.right * 10f * walkSpeed * horizontalInput * airMultiplier);
             }
             if (verticalInput != 0)
             {
-                rigidBody.AddRelativeForce(Vector3.forward * 3.8f * walkSpeed * verticalInput * airMultiplier);
+                rigidBody.AddRelativeForce(Vector3.forward * 10f * walkSpeed * verticalInput * airMultiplier);
             }
         }
     }
@@ -160,7 +160,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            rigidBody.drag = 0;
+            rigidBody.drag = 0.1f;
         }
     }
 
