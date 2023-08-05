@@ -4894,22 +4894,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1375431798}
     m_Modifications:
-    - target: {fileID: 1521468877457002222, guid: 3a0f0c77e32e12a43bd02c4378f2170e, type: 3}
-      propertyPath: m_CastShadows
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1521468877457002222, guid: 3a0f0c77e32e12a43bd02c4378f2170e, type: 3}
-      propertyPath: m_ReceiveShadows
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2475815962513255000, guid: 3a0f0c77e32e12a43bd02c4378f2170e, type: 3}
-      propertyPath: m_CastShadows
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3212121020785779711, guid: 3a0f0c77e32e12a43bd02c4378f2170e, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 13400000, guid: 6ccf4bfefa6f635428d41200eda271e1, type: 2}
     - target: {fileID: 6304829586576266498, guid: 3a0f0c77e32e12a43bd02c4378f2170e, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -4957,10 +4941,6 @@ PrefabInstance:
     - target: {fileID: 7164355117260634538, guid: 3a0f0c77e32e12a43bd02c4378f2170e, type: 3}
       propertyPath: m_Name
       value: Laser window
-      objectReference: {fileID: 0}
-    - target: {fileID: 7606040034108595345, guid: 3a0f0c77e32e12a43bd02c4378f2170e, type: 3}
-      propertyPath: m_CastShadows
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a0f0c77e32e12a43bd02c4378f2170e, type: 3}
