@@ -15,6 +15,6 @@ public class CameraRotationMainMenu : MonoBehaviour
     void Update()
     {
         mouseDistance = 2 * Input.mousePosition.x / Screen.width - 1;
-        transform.Rotate(-Vector3.up * mouseDistance * rotationSpeed);
+        transform.Rotate(-Vector3.up * mouseDistance * rotationSpeed * 100f * Time.deltaTime);
     }
 }

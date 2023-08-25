@@ -54,19 +54,7 @@ public class PlayerController : MonoBehaviour
         VerifyIfGrounded();
         ApplyDrag();
         Jump();
-        if (canTeleport && Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            if(sublevel == 1)
-            {
-                transform.position = transform.position + transform.up * 300;
-                sublevel = 2;
-            }
-            else if (sublevel == 2)
-            {
-                transform.position = transform.position + transform.up * -300;
-                sublevel = 1;
-            }
-        }
+        Teleport();
     }
 
     void FixedUpdate()
@@ -166,7 +154,7 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        if (!PauseMenu.paused && isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             jumping = true;
             jumpTime = 0;
@@ -182,13 +170,29 @@ public class PlayerController : MonoBehaviour
             jumping = false;
         }
     }
+    private void Teleport()
+    {
+        if (!PauseMenu.paused && canTeleport && Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            if (sublevel == 1)
+            {
+                transform.position = transform.position + transform.up * 300;
+                sublevel = 2;
+            }
+            else if (sublevel == 2)
+            {
+                transform.position = transform.position + transform.up * -300;
+                sublevel = 1;
+            }
+        }
+    }
 
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.name == "End Trigger")
         {
             canTeleport = false;
-            Invoke("LoadNextLevel", 1.5f);
+            Invoke(nameof(LoadNextLevel), 1.5f);
         }
     }
     private void LoadNextLevel()
