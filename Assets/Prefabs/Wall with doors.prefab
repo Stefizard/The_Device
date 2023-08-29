@@ -160,6 +160,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorBehaviour: {fileID: 1452065852647454566}
   range: 2
+  NeedKeyText: {fileID: 0}
+  OpenDoorText: {fileID: 0}
 --- !u!1 &1452065853575494689
 GameObject:
   m_ObjectHideFlags: 0

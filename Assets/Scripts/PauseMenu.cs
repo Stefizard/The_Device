@@ -7,7 +7,10 @@ public class PauseMenu : MonoBehaviour
 {
     public static bool paused = false;
     [SerializeField] GameObject pauseMenu;
-    
+    [SerializeField] GameObject UI;
+
+    public static bool haveKey = false;
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -28,6 +31,7 @@ public class PauseMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
         pauseMenu.SetActive(true);
+        UI.SetActive(false);
         Time.timeScale = 0f;
         paused = true;
     }
@@ -36,6 +40,7 @@ public class PauseMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         pauseMenu.SetActive(false);
+        UI.SetActive(true);
         Time.timeScale = 1f;
         paused = false;
     }
