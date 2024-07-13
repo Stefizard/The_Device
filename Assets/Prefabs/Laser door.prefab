@@ -339,7 +339,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6304829586576266498}
   m_Layer: 0
-  m_Name: Laser window
+  m_Name: Laser door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

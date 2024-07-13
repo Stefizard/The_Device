@@ -206,8 +206,8 @@ RectTransform:
   m_Children:
   - {fileID: 8157738885986278268}
   - {fileID: 8157738885630124845}
-  - {fileID: 8157738887474434655}
   - {fileID: 8157738886995788858}
+  - {fileID: 8157738887474434655}
   - {fileID: 8157738886404850788}
   m_Father: {fileID: 8157738887306984451}
   m_RootOrder: 1
@@ -672,7 +672,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
 --- !u!1 &8157738886737895282
 GameObject:
   m_ObjectHideFlags: 0
@@ -1181,7 +1181,7 @@ GameObject:
   - component: {fileID: 8157738886995788856}
   - component: {fileID: 8157738886995788859}
   m_Layer: 5
-  m_Name: Settings Button
+  m_Name: Restart Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1201,11 +1201,11 @@ RectTransform:
   m_Children:
   - {fileID: 8157738887493480039}
   m_Father: {fileID: 8157738885763520898}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 200}
+  m_AnchoredPosition: {x: 0, y: 325}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8157738886995788857
@@ -1289,7 +1289,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8157738886995788856}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8157738887306984448}
+        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
+        m_MethodName: RestartButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8157738887268468909
 GameObject:
   m_ObjectHideFlags: 0
@@ -1724,11 +1736,11 @@ RectTransform:
   m_Children:
   - {fileID: 8157738887448411476}
   m_Father: {fileID: 8157738885763520898}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 325}
+  m_AnchoredPosition: {x: 0, y: 200}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8157738887474434650
@@ -1824,7 +1836,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
 --- !u!1 &8157738887493480038
 GameObject:
   m_ObjectHideFlags: 0
@@ -1891,7 +1903,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SETTINGS
+  m_text: RESTART
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fcc3c2f39e9a02047baf37218441a8ed, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: fcc3c2f39e9a02047baf37218441a8ed, type: 2}

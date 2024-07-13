@@ -14,9 +14,9 @@ public class DoorSwitchBehaviour : MonoBehaviour
     private void OnMouseOver()
     {
         Vector3 distance = Camera.main.transform.position - transform.position;
-        if (!isActivated && distance.sqrMagnitude <= range * range)
+        if (!PauseMenu.paused && !isActivated && distance.sqrMagnitude <= range * range)
         {
-            if (PauseMenu.haveKey)
+            if (PlayerController.haveKey)
             {
                 OpenDoorText.IncreaseOpacity();
                 if (Input.GetKeyDown(KeyCode.E))

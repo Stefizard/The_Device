@@ -4,7 +4,6 @@ using System.IO;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -23,15 +22,18 @@ public class PlayerController : MonoBehaviour
     bool isGrounded;
     [SerializeField] float playerHeight = 2f;
     [SerializeField] float groundDrag = 2.5f;
-    [SerializeField] float airMultiplier = 0.4f;
+    [SerializeField] float airMultiplier = 0.25f;
 
     [SerializeField] float jumpForce = 5f;
     bool jumping = false;
     float jumpTime;
     [SerializeField] float maxJumpTime = 0.25f;
 
-    bool canTeleport = true;
+    public bool canTeleport = true;
+    [SerializeField] float sublevelDistance = 300f;
     int sublevel = 1;
+
+    public static bool haveKey = false;
 
     // Start is called before the first frame update
     void Start()
@@ -67,7 +69,7 @@ public class PlayerController : MonoBehaviour
         xMouse = Input.GetAxis("Mouse X");
         yMouse = Input.GetAxis("Mouse Y");
 
-        transform.Rotate(Vector3.up * xMouse * Time.deltaTime * 200);
+        transform.Rotate(Vector3.up * xMouse * System.Math.Min(0.02f,Time.deltaTime) * 200);
         LimitVerticalAngle();
         cam.transform.Rotate(Vector3.left * camRotationThisFrame);
         camRotation += camRotationThisFrame;
@@ -75,7 +77,7 @@ public class PlayerController : MonoBehaviour
 
     private void LimitVerticalAngle()
     {
-        camRotationThisFrame = yMouse * Time.deltaTime * 200;
+        camRotationThisFrame = yMouse * System.Math.Min(0.02f, Time.deltaTime) * 200;
         if (camRotation + camRotationThisFrame > cameraVerticalAngleLimit)
         {
             camRotationThisFrame = cameraVerticalAngleLimit - camRotation;
@@ -148,7 +150,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            rigidBody.drag = 0.1f;
+            rigidBody.drag = 0;
         }
     }
 
@@ -158,7 +160,6 @@ public class PlayerController : MonoBehaviour
         {
             jumping = true;
             jumpTime = 0;
-
         }
         if (jumping)
         {
@@ -176,35 +177,14 @@ public class PlayerController : MonoBehaviour
         {
             if (sublevel == 1)
             {
-                transform.position = transform.position + transform.up * 300;
+                transform.position = transform.position + transform.up * sublevelDistance;
                 sublevel = 2;
             }
             else if (sublevel == 2)
             {
-                transform.position = transform.position + transform.up * -300;
+                transform.position = transform.position + transform.up * -sublevelDistance;
                 sublevel = 1;
             }
-        }
-    }
-
-    private void OnTriggerEnter(Collider collision)
-    {
-        if (collision.gameObject.name == "End Trigger")
-        {
-            canTeleport = false;
-            Invoke(nameof(LoadNextLevel), 1.5f);
-        }
-    }
-    private void LoadNextLevel()
-    {
-        if (SceneManager.GetActiveScene().buildIndex + 1 == SceneManager.sceneCountInBuildSettings)
-        {
-            Destroy(GameObject.Find("Canvas")); //de modificat
-            SceneManager.LoadScene(0);
-        }
-        else
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 }

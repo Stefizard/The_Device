@@ -9,8 +9,6 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] GameObject pauseMenu;
     [SerializeField] GameObject UI;
 
-    public static bool haveKey = false;
-
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -44,17 +42,23 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         paused = false;
     }
+    public void RestartButton()
+    {
+        Time.timeScale = 1f;
+        paused = false;
+        if (SceneManager.GetActiveScene().name == "Level 2")
+        {
+            PlayerController.haveKey = false;
+        }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 
     public void MainMenuButton()
     {
         Time.timeScale = 1f;
         paused = false;
+        PlayerController.haveKey = false;
         SceneManager.LoadScene(0);
-    }
-
-    public void SettingsButton()
-    {
-
     }
 
     public void ExitButton()

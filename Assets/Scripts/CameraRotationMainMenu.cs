@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraRotationMainMenu : MonoBehaviour
 {   
-    [SerializeField] float rotationSpeed = 1.0f;
+    [SerializeField] float rotationSpeed = 0.7f;
     float mouseDistance;
 
     void Start()
@@ -15,6 +15,6 @@ public class CameraRotationMainMenu : MonoBehaviour
     void Update()
     {
         mouseDistance = 2 * Input.mousePosition.x / Screen.width - 1;
-        transform.Rotate(-Vector3.up * mouseDistance * rotationSpeed * 100f * Time.deltaTime);
+        transform.Rotate(Vector3.down * mouseDistance * rotationSpeed * 100f * Time.deltaTime);
     }
 }

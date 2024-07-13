@@ -10,13 +10,13 @@ public class KeyBehaviour : MonoBehaviour
     private void OnMouseOver()
     {
         Vector3 distance = Camera.main.transform.position - transform.position;
-        if (distance.sqrMagnitude <= range * range)
+        if (!PauseMenu.paused && distance.sqrMagnitude <= range * range)
         {
             GetKeyText.IncreaseOpacity();
             if (Input.GetKeyDown(KeyCode.E))
             {
                 GetKeyText.ResetOpacity();
-                PauseMenu.haveKey = true;
+                PlayerController.haveKey = true;
                 gameObject.SetActive(false);
             }
         }

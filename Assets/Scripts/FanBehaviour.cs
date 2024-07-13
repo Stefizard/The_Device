@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FanBehaviour : MonoBehaviour
 {
-    [SerializeField] float rotationSpeed = 1.0f;
+    [SerializeField] float rotationSpeed = 2.0f;
     void Update()
     {
         transform.Rotate(Vector3.up * rotationSpeed);
